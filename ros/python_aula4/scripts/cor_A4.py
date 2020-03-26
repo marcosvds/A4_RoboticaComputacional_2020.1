@@ -48,7 +48,7 @@ def roda_todo_frame(imagem):
 	try:
 		antes = time.clock()
 		cv_image = bridge.compressed_imgmsg_to_cv2(imagem, "bgr8")
-		cv_image = cv2.flip(cv_image, -1)
+		# cv_image = cv2.flip(cv_image, -1)
 		media, centro, maior_area =  cormodule.identifica_cor(cv_image)
 		depois = time.clock()
 		cv2.imshow("Camera", cv_image)
@@ -58,7 +58,8 @@ def roda_todo_frame(imagem):
 if __name__=="__main__":
 	rospy.init_node("cor")
 
-	topico_imagem = "/kamera"
+	# topico_imagem = "/kamera"
+	topico_imagem = "/camera/rgb/image_raw/compressed"
 	
 	# Para renomear a *webcam*
 	#   Primeiro instale o suporte https://github.com/Insper/robot19/blob/master/guides/debugar_sem_robo_opencv_melodic.md
@@ -91,7 +92,11 @@ if __name__=="__main__":
 			if len(media) != 0 and len(centro) != 0:
 				print("Média dos vermelhos: {0}, {1}".format(media[0], media[1]))
 				print("Centro dos vermelhos: {0}, {1}".format(centro[0], centro[1]))
-				vel = Twist(Vector3(0,0,0), Vector3(0,0,-0.1))
+
+				if (media[0] > centro[0]):
+					vel = Twist(Vector3(0,0,0), Vector3(0,0,-0.1))
+				if (media[0] < centro[0]):
+					vel = Twist(Vector3(0,0,0), Vector3(0,0,0.1))
 			velocidade_saida.publish(vel)
 			rospy.sleep(0.1)
 
