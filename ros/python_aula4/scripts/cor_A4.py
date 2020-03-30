@@ -15,11 +15,13 @@ from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Image, CompressedImage
 from cv_bridge import CvBridge, CvBridgeError
 import cormodule
-
+from sensor_msgs.msg import LaserScan
 
 bridge = CvBridge()
 
+mode = None
 cv_image = None
+dist = None
 media = []
 centro = []
 atraso = 1.5E9 # 1 segundo e meio. Em nanossegundos
@@ -30,12 +32,18 @@ area = 0.0 # Variavel com a area do maior contorno
 # Descarta imagens que chegam atrasadas demais
 check_delay = False 
 
+def scaneou(dado):
+    global dist #Definindo distância como uma variável global
+    dist = np.array(dado.ranges).round(decimals=2)[0]
+
 # A função a seguir é chamada sempre que chega um novo frame
 def roda_todo_frame(imagem):
 	print("frame")
 	global cv_image
 	global media
+	global dist
 	global centro
+	global mode
 
 	now = rospy.get_rostime()
 	imgtime = imagem.header.stamp
@@ -48,8 +56,8 @@ def roda_todo_frame(imagem):
 	try:
 		antes = time.clock()
 		cv_image = bridge.compressed_imgmsg_to_cv2(imagem, "bgr8")
-		cv_image = cv2.flip(cv_image, -1)
-		media, centro, maior_area =  cormodule.identifica_cor(cv_image)
+		# cv_image = cv2.flip(cv_image, -1)
+		media, centro, maior_area =  cormodule.identifica_cor(cv_image, dist, mode)
 		depois = time.clock()
 		cv2.imshow("Camera", cv_image)
 	except CvBridgeError as e:
@@ -58,28 +66,14 @@ def roda_todo_frame(imagem):
 if __name__=="__main__":
 	rospy.init_node("cor")
 
-	topico_imagem = "/kamera"
+	# topico_imagem = "/kamera"
+	topico_imagem = "/camera/rgb/image_raw/compressed"
 	
-	# Para renomear a *webcam*
-	#   Primeiro instale o suporte https://github.com/Insper/robot19/blob/master/guides/debugar_sem_robo_opencv_melodic.md
-	#
-	#	Depois faça:
-	#	
-	#	rosrun cv_camera cv_camera_node
-	#
-	# 	rosrun topic_tools relay  /cv_camera/image_raw/compressed /kamera
-	#
-	# 
-	# Para renomear a câmera simulada do Gazebo
-	# 
-	# 	rosrun topic_tools relay  /camera/rgb/image_raw/compressed /kamera
-	# 
-	# Para renomear a câmera da Raspberry
-	# 
-	# 	rosrun topic_tools relay /raspicam_node/image/compressed /kamera
-	# 
 
-	recebedor = rospy.Subscriber(topico_imagem, CompressedImage, roda_todo_frame, queue_size=4, buff_size = 2**24)
+
+
+	recebedor = rospy.Subscriber(topico_imagem, CompressedImage, roda_todo_frame,queue_size=4, buff_size = 2**24)
+	recebe_scan = rospy.Subscriber("/scan", LaserScan, scaneou)
 	print("Usando ", topico_imagem)
 
 	velocidade_saida = rospy.Publisher("/cmd_vel", Twist, queue_size = 1)
@@ -87,13 +81,25 @@ if __name__=="__main__":
 	try:
 
 		while not rospy.is_shutdown():
+			print(dist)
 			vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
 			if len(media) != 0 and len(centro) != 0:
-				print("Média dos vermelhos: {0}, {1}".format(media[0], media[1]))
-				print("Centro dos vermelhos: {0}, {1}".format(centro[0], centro[1]))
-				vel = Twist(Vector3(0,0,0), Vector3(0,0,-0.1))
+
+				if (media[0] > centro[0]):
+					vel = Twist(Vector3(0,0,0), Vector3(0,0,-0.1))
+				if (media[0] < centro[0]):
+					vel = Twist(Vector3(0,0,0), Vector3(0,0,0.1))
+				if (abs(media[0] - centro[0]) < 10):
+					vel = Twist(Vector3(0.1,0,0), Vector3(0,0,0))
+				if dist < 0.9:
+					vel = Twist(Vector3(0.1,0,0), Vector3(0,0,0))
+					mode = "Aproach started"
+				if dist < 0.3:
+					vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
+					mode = "In front of object"
 			velocidade_saida.publish(vel)
 			rospy.sleep(0.1)
 
 	except rospy.ROSInterruptException:
 	    print("Ocorreu uma exceção com o rospy")
+
