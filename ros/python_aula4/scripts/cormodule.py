@@ -76,10 +76,8 @@ def identifica_cor(frame, dist, Mode):
     # Representa a area e o centro do maior contorno no frame
   
     font = cv2.FONT_HERSHEY_COMPLEX_SMALL
-    cv2.putText(frame, "Mode = " + Mode ,(10,150), font, 1,(0,255,0),2,cv2.LINE_AA)
-    cv2.putText(frame,"{:d} {:d}".format(*media),(10,70), font, 1,(0,255,0),2,cv2.LINE_AA)
-    cv2.putText(frame,"{:0.1f}".format(maior_contorno_area),(10,110), font, 1,(0,255,0),2,cv2.LINE_AA)
-    cv2.putText(frame, "Distance = " + str(dist) ,(10,150), font, 1,(0,255,0),2,cv2.LINE_AA)
+    cv2.putText(frame, "Mode = " + Mode ,(10,30), font, 1,(0,255,0),2,cv2.LINE_AA)
+    cv2.putText(frame, "Distance = " + str(dist) ,(10,70), font, 1,(0,255,0),2,cv2.LINE_AA)
 
    # cv2.imshow('video', frame)
     cv2.imshow('seg', segmentado_cor)

@@ -19,7 +19,7 @@ from sensor_msgs.msg import LaserScan
 
 bridge = CvBridge()
 
-mode = None
+mode = "Searching"
 cv_image = None
 dist = None
 media = []
@@ -87,14 +87,17 @@ if __name__=="__main__":
 
 				if (media[0] > centro[0]):
 					vel = Twist(Vector3(0,0,0), Vector3(0,0,-0.1))
+					mode = "Searching"
 				if (media[0] < centro[0]):
 					vel = Twist(Vector3(0,0,0), Vector3(0,0,0.1))
+					mode = "Searching"
 				if (abs(media[0] - centro[0]) < 10):
 					vel = Twist(Vector3(0.1,0,0), Vector3(0,0,0))
-				if dist < 0.9:
+					mode = "Tracking"
+				if dist < 1.5 and (mode == "Tracking" or mode == "Aproach started"):
 					vel = Twist(Vector3(0.1,0,0), Vector3(0,0,0))
 					mode = "Aproach started"
-				if dist < 0.3:
+				if dist < 0.3 and (mode == "In front of object" or mode == "Aproach started"):
 					vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
 					mode = "In front of object"
 			velocidade_saida.publish(vel)
