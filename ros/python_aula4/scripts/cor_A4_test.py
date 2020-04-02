@@ -38,18 +38,19 @@ def scaneou(dado):
 
 # A função a seguir é chamada sempre que chega um novo frame
 def roda_todo_frame(imagem):
-	print("frame")
+
 	global cv_image
 	global media
 	global dist
 	global centro
 	global mode
+	global area
 
 	now = rospy.get_rostime()
 	imgtime = imagem.header.stamp
 	lag = now-imgtime # calcula o lag
 	delay = lag.nsecs
-	print("delay ", "{:.3f}".format(delay/1.0E9))
+
 	if delay > atraso and check_delay==True:
 		print("Descartando por causa do delay do frame:", delay)
 		return 
@@ -58,6 +59,7 @@ def roda_todo_frame(imagem):
 		cv_image = bridge.compressed_imgmsg_to_cv2(imagem, "bgr8")
 		# cv_image = cv2.flip(cv_image, -1)
 		media, centro, maior_area =  cormodule.identifica_cor(cv_image, dist, mode)
+		area = maior_area
 		depois = time.clock()
 		cv2.imshow("Camera", cv_image)
 	except CvBridgeError as e:
@@ -74,33 +76,28 @@ if __name__=="__main__":
 
 	recebedor = rospy.Subscriber(topico_imagem, CompressedImage, roda_todo_frame,queue_size=4, buff_size = 2**24)
 	recebe_scan = rospy.Subscriber("/scan", LaserScan, scaneou)
-	print("Usando ", topico_imagem)
-
 	velocidade_saida = rospy.Publisher("/cmd_vel", Twist, queue_size = 1)
 
 	try:
-
 		while not rospy.is_shutdown():
-			print(dist)
+			
+			if notturn == True:
+				current_angle = 0
 			vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
-			if len(media) != 0 and len(centro) != 0:
-
-				if mode != "Aproach started" and mode != "In front of object":
-					if (media[0] > centro[0]):
-						vel = Twist(Vector3(0,0,0), Vector3(0,0,-0.1))
-						mode = "Searching"
-					if (media[0] < centro[0]):
-						vel = Twist(Vector3(0,0,0), Vector3(0,0,0.1))
-						mode = "Searching"
-					if (abs(media[0] - centro[0]) < 10):
-						vel = Twist(Vector3(0.1,0,0), Vector3(0,0,0))
-						mode = "Tracking"
-				if dist < 1.5 and (mode == "Tracking" or mode == "Aproach started"):
-					vel = Twist(Vector3(0.1,0,0), Vector3(0,0,0))
-					mode = "Aproach started"
-				if dist < 0.25 and (mode == "In front of object" or mode == "Aproach started"):
-					vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
-					mode = "In front of object"
+			t0 = rospy.Time.now().to_sec()
+			angular_speed = (math.pi/10)
+			objects = []
+			while current_angle < (2*math.pi):
+				vel = Twist(Vector3(0,0,0), Vector3(0,0,angular_speed))
+				velocidade_saida.publish(vel)
+				rospy.sleep(0.2)
+				print(area)
+				#objects.append(area)
+				t1 = rospy.Time.now().to_sec()
+				current_angle = angular_speed*(t1-t0)
+				print(current_angle)
+			vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
+			notturn = False
 			velocidade_saida.publish(vel)
 			rospy.sleep(0.1)
 

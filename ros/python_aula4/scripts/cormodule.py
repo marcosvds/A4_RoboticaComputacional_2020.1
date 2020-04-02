@@ -27,7 +27,6 @@ def identifica_cor(frame, dist, Mode):
     # do vermelho:
     # frame = cv2.flip(frame, -1) # flip 0: eixo x, 1: eixo y, -1: 2 eixos
     frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
     cor_menor = np.array([50, 50, 50])
     cor_maior = np.array([60, 255, 255])
     segmentado_cor = cv2.inRange(frame_hsv, cor_menor, cor_maior)
@@ -64,12 +63,11 @@ def identifica_cor(frame, dist, Mode):
 
     # Encontramos o centro do contorno fazendo a média de todos seus pontos.
     if not maior_contorno is None :
-        cv2.drawContours(frame, [maior_contorno], -1, [0, 0, 255], 5)
         maior_contorno = np.reshape(maior_contorno, (maior_contorno.shape[0], 2))
         media = maior_contorno.mean(axis=0)
         media = media.astype(np.int32)
-        cv2.circle(frame, (media[0], media[1]), 5, [0, 255, 0])
-        cross(frame, centro, [255,0,0], 1, 17)
+        cv2.circle(frame, (media[0], media[1]), 3, [0, 255, 0], 5)
+        cross(frame, centro, [0,255,0], 5, 17)
     else:
         media = (0, 0)
 
