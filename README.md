@@ -26,3 +26,16 @@ Você deve testar com o robô a cerca de 1.75m do creeper.
 </p>
 
 Dica: use o *teleop* para se aproximar do creeper e capture uma imagem para facilitar a escolha de cores *HSV*. Relembre da [atividade da Aula 02](https://github.com/Insper/robot20/blob/master/aula02/aula2_OpenCV_Filtragem.ipynb).
+
+<h3>Vídeo do Guia:</h3>
+
+<p>
+Em caso de dúvida sobre como proceder, por favor acompanhe o vídeo
+
+[https://www.youtube.com/watch?v=OKphJFyhnSg&feature=youtu.be](https://www.youtube.com/watch?v=OKphJFyhnSg&feature=youtu.be)
+
+
+Se der alguma coisa errada, consulte esse guia de sobrevivência ROS Gazebo, com alguns problemas comuns e suas soluções
+
+[https://www.youtube.com/playlist?list=PLM8rZg4fCalht-rexa91MO1y3jxm9mwOa](https://www.youtube.com/playlist?list=PLM8rZg4fCalht-rexa91MO1y3jxm9mwOa)
+</p>
