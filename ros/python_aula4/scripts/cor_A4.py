@@ -69,9 +69,6 @@ if __name__=="__main__":
 	# topico_imagem = "/kamera"
 	topico_imagem = "/camera/rgb/image_raw/compressed"
 	
-
-
-
 	recebedor = rospy.Subscriber(topico_imagem, CompressedImage, roda_todo_frame,queue_size=4, buff_size = 2**24)
 	recebe_scan = rospy.Subscriber("/scan", LaserScan, scaneou)
 	print("Usando ", topico_imagem)
@@ -79,6 +76,7 @@ if __name__=="__main__":
 	velocidade_saida = rospy.Publisher("/cmd_vel", Twist, queue_size = 1)
 
 	try:
+
 
 		while not rospy.is_shutdown():
 			print(dist)
