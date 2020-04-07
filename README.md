@@ -14,6 +14,12 @@
 <ul>
   <li><a href=https://www.linkedin.com/in/fabiodemiranda/>Me. Fabio Roberto de Miranda</a></li>
 </ul>
+
+<h3>Simulação:</h3> 
+<ul>
+  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Vídeo testando</a></li>
+</ul>
+
 <h2>Informações da Atividade</h2>
 
 <h3>Objetivos:</h3>
