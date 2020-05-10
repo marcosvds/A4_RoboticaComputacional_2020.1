@@ -29,9 +29,9 @@
 
 <h3>Objetivos:</h3>
 <p>
-Modique este programa para que o robô centralize num creeper azul ou verde.
+Modifique este programa para que o robô centralize num creeper azul ou verde.
 
-Depois de centralizar, usando a informação do laser (tópico \scan) faça o robô se aproximar do creeper e para a 15cm dele ou tocá-lo gentilmente. Isso vai ser base para depois incluirmos o comando da garra do robô.
+Depois de centralizar, usando a informação do laser faça o robô se aproximar do creeper e para a 15cm dele ou tocá-lo gentilmente. Isso vai ser base para depois incluirmos o comando da garra do robô.
 
 Você deve testar com o robô a cerca de 1.75m do creeper.
 </p>
