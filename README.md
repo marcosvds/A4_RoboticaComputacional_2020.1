@@ -17,7 +17,7 @@
 
 <h3>Vídeo:</h3> 
 <ul>
-  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Vídeo testando</a></li>
+  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Comprovação da atividade 4 em vídeo</a></li>
 </ul>
 
 <h2>Informações da Atividade</h2>
