@@ -22,7 +22,7 @@
 
 <h3>Código:</h3> 
 <ul>
-  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Código da atividade 4</a></li>
+  <li><a href=https://github.com/marcosvds/A4_RoboticaComputacional_2020.1/blob/master/ros/python_aula4/scripts/cor_A4.py>Código da atividade 4</a></li>
 </ul>
 
 <h2>Informações da Atividade</h2>
