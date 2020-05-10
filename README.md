@@ -35,7 +35,3 @@ Depois de centralizar, usando a informação do laser (tópico \scan) faça o ro
 
 Você deve testar com o robô a cerca de 1.75m do creeper.
 </p>
-
-Dica: use o *teleop* para se aproximar do creeper e capture uma imagem para facilitar a escolha de cores *HSV*. Relembre da [atividade da Aula 02](https://github.com/Insper/robot20/blob/master/aula02/aula2_OpenCV_Filtragem.ipynb).
-PLM8rZg4fCalht-rexa91MO1y3jxm9mwOa)
-</p>
