@@ -17,7 +17,12 @@
 
 <h3>Vídeo:</h3> 
 <ul>
-  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Comprovação da atividade 4 em vídeo</a></li>
+  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Comprovação da atividade 4 em vídeo;</a></li>
+</ul>
+
+<h3>Código:</h3> 
+<ul>
+  <li><a href=https://www.youtube.com/watch?v=lYOpk9NUu0E&feature=youtu.be>Código da atividade 4;</a></li>
 </ul>
 
 <h2>Informações da Atividade</h2>
