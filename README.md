@@ -28,10 +28,8 @@
 <h2>Informações da Atividade</h2>
 
 <h3>Objetivos:</h3>
-<p>
-Modifique este programa para que o robô centralize num creeper azul ou verde.
-
-Depois de centralizar, usando a informação do laser faça o robô se aproximar do creeper e parar a 15cm dele ou tocá-lo gentilmente.
-
-Você deve testar com o robô a cerca de 1.75m do creeper.
-</p>
+<ul>
+<li>Modifique este programa para que o robô centralize num creeper azul ou verde.</li>
+<li>Depois de centralizar, usando a informação do laser faça o robô se aproximar do creeper e parar a 15cm dele ou tocá-lo gentilmente.</li>
+<li>Você deve testar com o robô a cerca de 1.75m do creeper.</li>
+</ul>
